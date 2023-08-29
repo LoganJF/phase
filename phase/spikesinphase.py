@@ -345,18 +345,7 @@ def _calc_total_spikes_from_phase_arr(neuron_list, all_spikes, phase_arr, phase_
         df = df.groupby(['bins', 'neuron', 'date', 'condition'], sort=False, as_index=False).agg({'# of Spikes': np.sum})
         df['trial number'] = df['bins'] // phase_bins
         df['bins'] %= phase_bins
-        # df = df.reset_index(drop=True)
-        # df.to_csv('/Users/loganfickling/Downloads/test.csv')
-        # Formatting to add in 0 values
-        """neuron, date, cond, trial_num = df.iloc[0][['neuron', 'date', 'condition', 'trial number']]
-        df = df.reset_index(drop=True).drop(columns='Unnamed: 0')
-        df = df.set_index(df['bin']).reindex(np.arange(100)).fillna(0)
-        df['neuron'] = neuron
-        df['date'] = date
-        df['condition'] = cond
-        df['trial number'] = trial_num
-        #df = df.drop(columns='Unnamed: 0')
-        df['bin']=np.arange(100)"""
+      
         exp_data.append(df)
 
     agg_df = pd.concat(agg_exp_data).sort_values(['neuron', 'bins'])
@@ -473,6 +462,7 @@ def fixer_func(df):
             _df['condition'] = cond
             _df['trial number'] = trial_num
             #_df = _df.drop(columns='Unnamed: 0')
+            _df = _df.reset_index(drop=True)
             _df['bins']=np.arange(100)
             _dataframe.append(_df)
     else:
@@ -482,6 +472,7 @@ def fixer_func(df):
             _df['neuron'] = neuron
             _df['date'] = date
             _df['condition'] = cond
+            _df = _df.reset_index(drop=True)
             #_df = _df.drop(columns='Unnamed: 0')
             _df['bins']=np.arange(100)
             _dataframe.append(_df)
